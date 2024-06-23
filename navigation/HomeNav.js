@@ -6,7 +6,11 @@ const Stacks = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ title: "Player Search" }}
+            />
             <Stack.Screen name="Player" component={PlayerDetailsScreen} />
         </Stack.Navigator>
     );

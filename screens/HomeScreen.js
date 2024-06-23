@@ -17,17 +17,9 @@ export default function HomeScreen({ navigation }) {
                 <Pressable
                     style={styles.searchButton}
                     onPress={() => {
-                        //Validating Id Size before fetch in next tab//
-                        if (steamId.length === 17) {
-                            console.log(`ID#${steamId} is ready for search`);
-                            navigation.navigate("Player", {
-                                playerId: steamId,
-                            });
-                        } else {
-                            console.error(
-                                `Invalid ID length (${steamId.length}/17 Digits)`
-                            );
-                        }
+                        navigation.navigate("Player", {
+                            playerId: steamId,
+                        });
                     }}
                 >
                     <Text>Search</Text>
