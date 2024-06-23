@@ -1,21 +1,13 @@
-import { StyleSheet } from "react-native";
+//navigation
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeNav from "./navigation/HomeNav";
+//styling
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import HomeScreen from "./screens/HomeScreen";
+//temp
 import MatchScreen from "./screens/MatchScreen";
 import ProfileScreen from "./screens/ProfileScreen";
-
-const Stacks = () => {
-    const Stack = createStackNavigator();
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-        </Stack.Navigator>
-    );
-};
 
 export default function App() {
     const Tab = createBottomTabNavigator();
@@ -25,26 +17,27 @@ export default function App() {
             <Tab.Navigator>
                 <Tab.Screen
                     name="Home Page"
-                    component={Stacks}
+                    component={HomeNav}
                     options={{
                         headerShown: false,
                         tabBarIcon: () => <Ionicons name="home" />,
                     }}
                 />
-                <Tab.Screen
-                    name="Matches"
-                    component={MatchScreen}
-                    options={{
-                        headerShown: false,
-                        tabBarIcon: () => <Ionicons name="home" />,
-                    }}
-                />{" "}
+
                 <Tab.Screen
                     name="Profile"
                     component={ProfileScreen}
                     options={{
                         headerShown: false,
-                        tabBarIcon: () => <Ionicons name="home" />,
+                        tabBarIcon: () => <Ionicons name="person" />,
+                    }}
+                />
+                <Tab.Screen
+                    name="Find Match"
+                    component={MatchScreen}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: () => <Ionicons name="search" />,
                     }}
                 />
             </Tab.Navigator>

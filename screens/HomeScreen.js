@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import { useState } from "react";
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
     const [steamId, setSteamId] = useState("");
 
     return (
@@ -20,6 +20,9 @@ export default function HomeScreen() {
                         //Validating Id Size before fetch in next tab//
                         if (steamId.length === 17) {
                             console.log(`ID#${steamId} is ready for search`);
+                            navigation.navigate("Player", {
+                                playerId: steamId,
+                            });
                         } else {
                             console.error(
                                 `Invalid ID length (${steamId.length}/17 Digits)`
