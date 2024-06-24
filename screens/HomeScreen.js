@@ -1,8 +1,39 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import { useState } from "react";
+import { useState, useLayoutEffect, useEffect } from "react";
 
 export default function HomeScreen({ navigation }) {
     const [steamId, setSteamId] = useState("");
+    const [playerData, setPlayerData] = useState(null);
+
+    const API_KEY = "7a6479794ee844848990813abcfeed73";
+
+    const fetch_player_data = async () => {
+        try {
+            const res = await fetch(
+                `https://api.opendota.com/api/players/${steamId}`
+            );
+            const data = await res.json();
+            setPlayerData(data);
+
+            if (data.error) {
+                console.error("Error: Please verify player ID");
+
+                //navigation is handled here so that the navigation params object is only define after fetch.
+            } else {
+                navigation.navigate("Player", {
+                    playerId: playerData.profile.account_id,
+                    playerName: playerData.profile.personaName,
+                    playerAvatar: playerData.profile.avatarfull,
+                });
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    useEffect(() => {
+        console.log(playerData);
+    }, [playerData]);
 
     return (
         <View style={styles.mainContainer}>
@@ -18,6 +49,7 @@ export default function HomeScreen({ navigation }) {
                     style={styles.searchButton}
                     onPress={() => {
                         console.log("Pressed");
+                        fetch_player_data();
                     }}
                 >
                     <Text>Search</Text>
