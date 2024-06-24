@@ -17,9 +17,7 @@ export default function HomeScreen({ navigation }) {
                 <Pressable
                     style={styles.searchButton}
                     onPress={() => {
-                        navigation.navigate("Player", {
-                            playerId: steamId,
-                        });
+                        console.log("Pressed");
                     }}
                 >
                     <Text>Search</Text>
