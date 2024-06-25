@@ -20,20 +20,18 @@ export default function HomeScreen({ navigation }) {
 
                 //navigation is handled here so that the navigation params object is only define after fetch.
             } else {
+                console.log(data); /////DEBUG
                 navigation.navigate("Player", {
-                    playerId: playerData.profile.account_id,
-                    playerName: playerData.profile.personaName,
-                    playerAvatar: playerData.profile.avatarfull,
+                    playerId: data.profile.account_id,
+                    playerName: data.profile.personaname,
+                    playerAvatar: data.profile.avatarfull,
+                    playerRank: data.rank_tier,
                 });
             }
         } catch (error) {
             console.error(error.message);
         }
     };
-
-    useEffect(() => {
-        console.log(playerData);
-    }, [playerData]);
 
     return (
         <View style={styles.mainContainer}>
