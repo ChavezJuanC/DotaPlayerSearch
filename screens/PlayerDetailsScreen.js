@@ -60,7 +60,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 <Pressable
                     style={styles.button}
                     onPress={() => {
-                        navigation.navigate("Hero Stats");
+                        navigation.navigate("Hero Stats", {playerId: playerId});
                     }}
                 >
                     <Text style={styles.buttonText}>Hero Stats</Text>
@@ -153,3 +153,4 @@ const styles = StyleSheet.create({
 //73149933
 //168199092
 //119220558
+//152428288
