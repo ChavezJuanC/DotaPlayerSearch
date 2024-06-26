@@ -26,6 +26,7 @@ export default function HomeScreen({ navigation }) {
                     playerName: data.profile.personaname,
                     playerAvatar: data.profile.avatarfull,
                     playerRank: data.rank_tier,
+                    playerId: steamId,
                 });
             }
         } catch (error) {
