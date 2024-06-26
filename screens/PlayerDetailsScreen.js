@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { View, Image, StyleSheet, Text, Pressable } from "react-native";
 import { rankTiers } from "../assets/Ranks";
 
-export default function PlayerDetailsScreen({ route }) {
+export default function PlayerDetailsScreen({ route, navigation }) {
     const { playerName, playerAvatar, playerRank, playerId } = route.params;
     //The rank will only be set IF a rank is detected else use this placeholder img for no rank
     const [rankImg, setRankImage] = useState(
@@ -57,7 +57,12 @@ export default function PlayerDetailsScreen({ route }) {
                 <Pressable style={styles.button}>
                     <Text style={styles.buttonText}>Recent Games</Text>
                 </Pressable>
-                <Pressable style={styles.button}>
+                <Pressable
+                    style={styles.button}
+                    onPress={() => {
+                        navigation.navigate("Hero Stats");
+                    }}
+                >
                     <Text style={styles.buttonText}>Hero Stats</Text>
                 </Pressable>
                 <Pressable style={styles.button}>

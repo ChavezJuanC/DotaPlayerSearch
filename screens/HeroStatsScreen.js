@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export default function Error() {
+export default function HeroStatsScreen() {
     return (
         <View>
-            <Text>Whooops</Text>
+            <Text>Hero Stats</Text>
         </View>
     );
 }

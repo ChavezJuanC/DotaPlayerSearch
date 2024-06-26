@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import PlayerDetailsScreen from "../screens/PlayerDetailsScreen";
+import HeroStatsScreen from "../screens/HeroStatsScreen";
 
 const Stacks = () => {
     const Stack = createStackNavigator();
@@ -11,6 +12,7 @@ const Stacks = () => {
                 component={HomeScreen}
                 options={{ title: "Player Search" }}
             />
+            <Stack.Screen name="Hero Stats" component={HeroStatsScreen} />
             <Stack.Screen name="Player" component={PlayerDetailsScreen} />
         </Stack.Navigator>
     );
