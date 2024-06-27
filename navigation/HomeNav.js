@@ -6,15 +6,34 @@ import HeroStatsScreen from "../screens/HeroStatsScreen";
 const Stacks = () => {
     const Stack = createStackNavigator();
     return (
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Home"
-                component={HomeScreen}
-                options={{ title: "Player Search" }}
-            />
-            <Stack.Screen name="Hero Stats" component={HeroStatsScreen} />
-            <Stack.Screen name="Player" component={PlayerDetailsScreen} />
-        </Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: "#1f1f1f",
+                    },
+                    headerTintColor: "#e0e0e0",
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                    },
+                    cardStyle: { backgroundColor: "#121212" },
+                }}
+            >
+                <Stack.Screen
+                    name="Home"
+                    component={HomeScreen}
+                    options={{ title: "Player Search" }}
+                />
+                <Stack.Screen 
+                    name="Hero Stats" 
+                    component={HeroStatsScreen} 
+                    options={{ title: "Hero Stats" }} 
+                />
+                <Stack.Screen 
+                    name="Player" 
+                    component={PlayerDetailsScreen} 
+                    options={{ title: "Player Details" }} 
+                />
+            </Stack.Navigator>
     );
 };
 

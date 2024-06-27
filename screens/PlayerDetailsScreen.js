@@ -4,7 +4,6 @@ import { rankTiers } from "../assets/Ranks";
 
 export default function PlayerDetailsScreen({ route, navigation }) {
     const { playerName, playerAvatar, playerRank, playerId } = route.params;
-    //The rank will only be set IF a rank is detected else use this placeholder img for no rank
     const [rankImg, setRankImage] = useState(
         "https://www.opendota.com/assets/images/dota2/rank_icons/rank_icon_0.png"
     );
@@ -22,7 +21,6 @@ export default function PlayerDetailsScreen({ route, navigation }) {
             );
             const data = await res.json();
             setMatchesData(data);
-            console.log(data); //DEBUG
         };
 
         fetchLastMatches();
@@ -47,7 +45,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
 
                 <Image source={{ uri: rankImg }} style={styles.rankImg} />
 
-                <View style={[styles.wlRatioView]}>
+                <View style={styles.wlRatioView}>
                     <Text style={styles.looseText}>W:{matchesData.win} </Text>
                     <Text style={styles.winText}> L:{matchesData.lose}</Text>
                 </View>
@@ -60,7 +58,9 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 <Pressable
                     style={styles.button}
                     onPress={() => {
-                        navigation.navigate("Hero Stats", {playerId: playerId});
+                        navigation.navigate("Hero Stats", {
+                            playerId: playerId,
+                        });
                     }}
                 >
                     <Text style={styles.buttonText}>Hero Stats</Text>
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-between",
+        backgroundColor: "#121212",
     },
     infoView: {
         alignItems: "center",
@@ -95,22 +96,25 @@ const styles = StyleSheet.create({
         width: 200,
         borderRadius: 100,
         borderWidth: 2,
-        borderColor: "black",
+        borderColor: "#333",
         marginBottom: 20,
     },
     rankImg: {
         width: 75,
         height: 75,
+        marginBottom: 20,
     },
     rankText: {
         fontSize: 18,
         fontWeight: "400",
         paddingTop: 10,
+        color: "#e0e0e0",
     },
     playerName: {
         fontSize: 30,
         fontWeight: "500",
         padding: 10,
+        color: "#e0e0e0",
     },
     wlRatioView: {
         flexDirection: "row",
@@ -131,20 +135,21 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     button: {
-        borderWidth: 2,
+        borderWidth: 0,
         paddingHorizontal: "25%",
-        borderRadius: 100,
+        borderRadius: 25,
         paddingVertical: 10,
         alignItems: "center",
         marginTop: 10,
         width: "80%",
         alignSelf: "center",
-        backgroundColor: "lightblue",
+        backgroundColor: "#1f1f1f",
+        elevation: 5,
     },
     buttonText: {
         fontSize: 16,
         fontWeight: "400",
-        color: "black",
+        color: "#e0e0e0",
     },
 });
 
@@ -154,3 +159,7 @@ const styles = StyleSheet.create({
 //168199092
 //119220558
 //152428288
+
+//232061338
+//106108405
+//86331243
