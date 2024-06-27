@@ -46,13 +46,20 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 <Image source={{ uri: rankImg }} style={styles.rankImg} />
 
                 <View style={styles.wlRatioView}>
-                    <Text style={styles.looseText}>W:{matchesData.win} </Text>
-                    <Text style={styles.winText}> L:{matchesData.lose}</Text>
+                    <Text style={styles.looseText}>W:{matchesData.win}/10 </Text>
+                    <Text style={styles.winText}> L:{matchesData.lose}/10</Text>
                 </View>
             </View>
 
             <View style={styles.buttonsView}>
-                <Pressable style={styles.button}>
+                <Pressable
+                    style={styles.button}
+                    onPress={() => {
+                        navigation.navigate("Recent Games", {
+                            playerId: playerId,
+                        });
+                    }}
+                >
                     <Text style={styles.buttonText}>Recent Games</Text>
                 </Pressable>
                 <Pressable
