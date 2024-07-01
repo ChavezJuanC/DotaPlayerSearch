@@ -2,10 +2,26 @@ import { View, Text, FlatList, Image, StyleSheet } from "react-native";
 import { useLayoutEffect, useState } from "react";
 import heroInfo from "../assets/heroInfo";
 
-const RecentGameCard = ({ heroImg, heroName, kills, deaths, assists }) => {
+const RecentGameCard = ({
+    heroImg,
+    heroName,
+    kills,
+    deaths,
+    assists,
+    result,
+}) => {
     return (
         <View style={styles.cardContainer}>
-            <Image source={{ uri: heroImg }} style={styles.heroImg} />
+            <Image
+                source={{ uri: heroImg }}
+                style={[
+                    styles.heroImg,
+                    {
+                        borderColor: result === 1 ? "#22b88b" : "#d23201",
+                        borderWidth: 2,
+                    },
+                ]}
+            />
             <View style={styles.textContainer}>
                 <Text style={styles.heroName}>{heroName}</Text>
             </View>
@@ -31,16 +47,19 @@ export default function RecentGamesScreen({ route }) {
     const [recentMatchData, setRecentMatchData] = useState([]);
 
     useLayoutEffect(() => {
-        const fetchRecentGames = async () => {
-            const res = await fetch(
-                `https://api.opendota.com/api/players/${playerId}/matches?limit=20&significant=0`
-            );
-            const data = await res.json();
-            setRecentMatchData(data);
-            console.log(data); //DEBUG
-        };
+        try {
+            const fetchRecentGames = async () => {
+                const res = await fetch(
+                    `https://api.opendota.com/api/players/${playerId}/matches?limit=20&significant=0`
+                );
+                const data = await res.json();
+                setRecentMatchData(data);
+            };
 
-        fetchRecentGames();
+            fetchRecentGames();
+        } catch (error) {
+            console.error("Error fetching recent matches : ", error);
+        }
     }, [playerId]);
 
     return (
@@ -53,8 +72,17 @@ export default function RecentGamesScreen({ route }) {
                         (element) => element.heroId === item.hero_id
                     );
 
+                    let result = null;
+
+                    if (item.radiant_win) {
+                        result = item.player_slot < 128 ? 1 : 0;
+                    } else {
+                        result = item.player_slot < 128 ? 0 : 1;
+                    }
+
                     return (
                         <RecentGameCard
+                            result={result}
                             heroImg={heroData.heroImg}
                             heroName={heroData.heroName}
                             kills={item.kills}
@@ -121,13 +149,16 @@ const styles = StyleSheet.create({
         color: "#b0b0b0",
     },
     killsText: {
-        color: "#22b88b",
+        color: "#e0e0e0",
+        //color: "#22b88b",
     },
     deathsText: {
-        color: "#d23201",
+        color: "#e0e0e0",
+        //color: "#d23201",
     },
     assistsText: {
-        color: "#2176FF",
+        color: "#e0e0e0",
+        //color: "#2176FF",
     },
 });
 

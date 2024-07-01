@@ -23,14 +23,18 @@ export default function HeroStatsScreen({ route }) {
     const [heroStats, setHeroStats] = useState([]);
 
     useLayoutEffect(() => {
-        const fetchHeroStats = async () => {
-            const res = await fetch(
-                `https://api.opendota.com/api/players/${playerId}/heroes?significant=0`
-            );
-            const data = await res.json();
-            setHeroStats(data);
-        };
-        fetchHeroStats();
+        try {
+            const fetchHeroStats = async () => {
+                const res = await fetch(
+                    `https://api.opendota.com/api/players/${playerId}/heroes?significant=0`
+                );
+                const data = await res.json();
+                setHeroStats(data);
+            };
+            fetchHeroStats();
+        } catch (error) {
+            console.error("Error fetching hero stats info : ", error);
+        }
     }, [playerId]);
 
     // Memoized renderItem function

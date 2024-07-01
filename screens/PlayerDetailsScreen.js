@@ -12,18 +12,22 @@ export default function PlayerDetailsScreen({ route, navigation }) {
         ? rankTiers.find((element) => element.rankTier === playerRank).rankName
         : null;
 
-    const [matchesData, setMatchesData] = useState({ win: "-", lose: "-" });
+    const [matchesData, setMatchesData] = useState({});
 
     useLayoutEffect(() => {
-        const fetchLastMatches = async () => {
-            const res = await fetch(
-                `https://api.opendota.com/api/players/${playerId}/wl?significant=0&limit=10`
-            );
-            const data = await res.json();
-            setMatchesData(data);
-        };
+        try {
+            const fetchLastMatches = async () => {
+                const res = await fetch(
+                    `https://api.opendota.com/api/players/${playerId}/wl?significant=0`
+                );
+                const data = await res.json();
+                setMatchesData(data);
+            };
 
-        fetchLastMatches();
+            fetchLastMatches();
+        } catch (error) {
+            console.error("Error fetching win/loss ratio : ", error);
+        }
 
         if (playerRankTier !== null) {
             setRankImage(
@@ -46,8 +50,8 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 <Image source={{ uri: rankImg }} style={styles.rankImg} />
 
                 <View style={styles.wlRatioView}>
-                    <Text style={styles.looseText}>W:{matchesData.win}/10 </Text>
-                    <Text style={styles.winText}> L:{matchesData.lose}/10</Text>
+                    <Text style={styles.looseText}>W:{matchesData.win}</Text>
+                    <Text style={styles.winText}> L:{matchesData.lose}</Text>
                 </View>
             </View>
 
@@ -72,8 +76,13 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 >
                     <Text style={styles.buttonText}>Hero Stats</Text>
                 </Pressable>
-                <Pressable style={styles.button}>
-                    <Text style={styles.buttonText}>More Stats</Text>
+                <Pressable
+                    style={styles.button}
+                    onPress={() =>
+                        navigation.navigate("Peers", { playerId: playerId })
+                    }
+                >
+                    <Text style={styles.buttonText}>W-L With Friends</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.button, { backgroundColor: "#22b88b" }]}
@@ -131,12 +140,12 @@ const styles = StyleSheet.create({
     winText: {
         fontSize: 20,
         fontWeight: "800",
-        color: "#22b88b",
+        color: "#d23201",
     },
     looseText: {
         fontSize: 20,
         fontWeight: "800",
-        color: "#d23201",
+        color: "#22b88b",
     },
     buttonsView: {
         marginBottom: 30,

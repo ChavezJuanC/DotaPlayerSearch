@@ -1,11 +1,9 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
-import { useState, useLayoutEffect, useEffect } from "react";
+import { useState } from "react";
 
 export default function HomeScreen({ navigation }) {
     const [steamId, setSteamId] = useState("");
     const [playerData, setPlayerData] = useState(null);
-
-    const API_KEY = "7a6479794ee844848990813abcfeed73";
 
     const fetch_player_data = async () => {
         try {
@@ -20,7 +18,6 @@ export default function HomeScreen({ navigation }) {
 
                 //navigation is handled here so that the navigation params object is only define after fetch.
             } else {
-                console.log(data); /////DEBUG
                 navigation.navigate("Player", {
                     playerId: data.profile.account_id,
                     playerName: data.profile.personaname,
@@ -41,13 +38,12 @@ export default function HomeScreen({ navigation }) {
                     style={styles.idInput}
                     onChangeText={setSteamId}
                     value={steamId}
-                    placeholder="Steam ID"
+                    placeholder="Open Dota ID"
                     keyboardType="numeric"
                 />
                 <Pressable
                     style={styles.searchButton}
                     onPress={() => {
-                        console.log("Pressed");
                         fetch_player_data();
                     }}
                 >

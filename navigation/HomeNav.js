@@ -3,6 +3,7 @@ import HomeScreen from "../screens/HomeScreen";
 import PlayerDetailsScreen from "../screens/PlayerDetailsScreen";
 import HeroStatsScreen from "../screens/HeroStatsScreen";
 import RecentGamesScreen from "../screens/RecentGamesScreen";
+import PeersScreen from "../screens/PeersScreen";
 
 const Stacks = () => {
     const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ const Stacks = () => {
                 options={{ title: "Player Details" }}
             />
             <Stack.Screen name="Recent Games" component={RecentGamesScreen} />
+            <Stack.Screen name="Peers" component={PeersScreen} />
         </Stack.Navigator>
     );
 };
