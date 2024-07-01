@@ -109,7 +109,9 @@ export default function PersonalProfile({ playerId, clearAll }) {
                                 })
                             }
                         >
-                            <Text style={styles.buttonText}>W-L With Friends</Text>
+                            <Text style={styles.buttonText}>
+                                W-L With Friends
+                            </Text>
                         </Pressable>
                         <Pressable
                             style={[
@@ -223,10 +225,20 @@ const styles = StyleSheet.create({
 /*
 NEXT STEPS
 
-create nativagtion for buttons(check the other buttons navigation for params and re-use screens)
-NEVER WRITTE A FUCKING ASYNC FUCNTION WITHOUT ERROR HANDLING.
+Come up with plan to save users in the main screen using async storage??
 
+onPress Save Player.... save an object to async  storage, This object should iclude. 
+savedPlayerId: player_id
+savedPlayerName: personaname
+savedPlayerAvar: avatarfull
+
+**This could be an array of objects, just read or and rewritte on change or find a way to append to arr**
+
+now that this info is being saved...
+with a useLayoutEffect hook in the homescreen... create an array of obs..  savedPlayersInfo
+use this array to render flat list of savedPlayerCard comps (pressables that navigate with a preset playerId)
 
 -FIANALLY-
-Come up with plan to save users in the main screen using async storage??
+Start Creating search section and play returned layout for match search
+
 */

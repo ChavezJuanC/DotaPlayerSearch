@@ -33,7 +33,6 @@ export default function PeersScreen({ route }) {
                 );
                 const data = await res.json();
                 setPeersData(data);
-                console.log(data); //debugging
             };
 
             fetchPeers();
