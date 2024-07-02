@@ -141,7 +141,7 @@ NEXT STEPS
 
 add a button to clear instead of each pressble having the function (next to -Saved Players-)
 add a button to clear each card independetly. (fetch, parse, delete(filter !, repost item))
-add restriction for cant add existing saved player (show error instead)
+add restriction for cant add existing saved player (show error instead, else navigate to home)
 
 -FIANALLY-
 Start Creating search section and play returned layout for match search
