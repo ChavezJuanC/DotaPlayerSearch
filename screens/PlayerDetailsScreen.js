@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import { View, Image, StyleSheet, Text, Pressable } from "react-native";
 import { rankTiers } from "../assets/Ranks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PlayerDetailsScreen({ route, navigation }) {
     const { playerName, playerAvatar, playerRank, playerId } = route.params;
@@ -13,7 +14,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
         : null;
 
     const [matchesData, setMatchesData] = useState({});
-
+ 
     useLayoutEffect(() => {
         try {
             const fetchLastMatches = async () => {
@@ -36,6 +37,23 @@ export default function PlayerDetailsScreen({ route, navigation }) {
             );
         }
     }, []);
+
+    const appendToList = async (newPlayer) => {
+        try {
+            // Retrieve the existing list from AsyncStorage
+            const jsonValue = await AsyncStorage.getItem("@savedPlayers");
+            let list = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+            // Append the new object to the list
+            list.push(newPlayer);
+
+            // Store the updated list back to AsyncStorage
+            const jsonString = JSON.stringify(list);
+            await AsyncStorage.setItem("@savedPlayers", jsonString);
+        } catch (error) {
+            console.error("Error saving player");
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -86,6 +104,15 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 </Pressable>
                 <Pressable
                     style={[styles.button, { backgroundColor: "#22b88b" }]}
+                    onPress={() => {
+                        const newPlayer = {
+                            savedPlayerId: playerId,
+                            savedPlayerName: playerName,
+                            savedPlayerAvar: playerAvatar,
+                        };
+                        appendToList(newPlayer);
+                        console.log("Player Profile Saved");
+                    }}
                 >
                     <Text style={[styles.buttonText, { color: "white" }]}>
                         Save Player
