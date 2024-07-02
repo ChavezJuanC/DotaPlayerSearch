@@ -4,12 +4,11 @@ export default function SavedPlayerCard({
     playerAvatar,
     playerName,
     playerId,
-    clearFunction,
 }) {
     return (
         <Pressable
             onPress={() => {
-                clearFunction();
+                console.log("Removing player");
             }}
         >
             <View style={styles.cardView}>

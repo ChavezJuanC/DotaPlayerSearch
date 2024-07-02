@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation }) {
 
     const clearSavedPlayers = async () => {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem("@savedPlayers");
         } catch (error) {
             console.error("Error Clearing Async storage : ", error);
         }
@@ -75,11 +75,23 @@ export default function HomeScreen({ navigation }) {
                         fetch_player_data();
                     }}
                 >
-                    <Text>Search</Text>
+                    <Text style={styles.searchButtonText}>Search</Text>
                 </Pressable>
             </View>
             <View>
-                <Text style={styles.savedPlayerTitle}>-Saved Players-</Text>
+                <View style={styles.savedPlayersHeader}>
+                    <Text style={styles.savedPlayerTitle}>
+                        - Saved Players -
+                    </Text>
+                    <Pressable
+                        style={styles.clearSavedPlayers}
+                        onPress={() => {
+                            clearSavedPlayers();
+                        }}
+                    >
+                        <Text style={styles.clearButtonText}>clear</Text>
+                    </Pressable>
+                </View>
                 <FlatList
                     data={playerList}
                     renderItem={({ item }) => (
@@ -90,6 +102,8 @@ export default function HomeScreen({ navigation }) {
                             clearFunction={clearSavedPlayers}
                         />
                     )}
+                    ListFooterComponent={() => <View></View>}
+                    ListFooterComponentStyle={{ margin: 20 }}
                 />
             </View>
         </View>
@@ -101,7 +115,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     searchView: {
-        marginTop: 10,
+        marginTop: 15,
         flexDirection: "row",
         justifyContent: "space-between",
     },
@@ -127,20 +141,40 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 50,
     },
+    searchButtonText: {
+        fontWeight: "600",
+    },
+    savedPlayersHeader: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginTop: 20,
+    },
     savedPlayerTitle: {
-        marginTop: 15,
         margin: 5,
         fontSize: 20,
         fontWeight: "500",
-        color: "#e0e0e0",
+        color: "#f5f5f5",
+        paddingHorizontal: 10,
+    },
+    clearSavedPlayers: {
+        backgroundColor: "#cf9c8c",
+        width: 50,
+        height: 20,
+        borderRadius: 30,
+        marginHorizontal: 20,
+    },
+    clearButtonText: {
+        alignSelf: "center",
+        fontWeight: "400",
     },
 });
 
 /*
 NEXT STEPS
 
-add a button to clear instead of each pressble having the function (next to -Saved Players-)
 add a button to clear each card independetly. (fetch, parse, delete(filter !, repost item))
+if the pressable is pressed navigate with playedId , if clear button is pressed (clear savedPlayerCard)
 add restriction for cant add existing saved player (show error instead, else navigate to home)
 
 -FIANALLY-

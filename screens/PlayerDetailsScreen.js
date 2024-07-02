@@ -111,7 +111,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                             savedPlayerAvar: playerAvatar,
                         };
                         appendToList(newPlayer);
-                        console.log("Player Profile Saved");
+                        navigation.navigate("Home")
                     }}
                 >
                     <Text style={[styles.buttonText, { color: "white" }]}>

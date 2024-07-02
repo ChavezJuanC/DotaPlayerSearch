@@ -43,7 +43,7 @@ export default function ProfileScreen() {
 
     const clearAll = async () => {
         try {
-            await AsyncStorage.clear();
+            await AsyncStorage.removeItem("profileId");
             setPlayerId(null);
             setIsRegistered(false);
         } catch (e) {
