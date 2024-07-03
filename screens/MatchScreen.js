@@ -8,10 +8,11 @@ import {
     SafeAreaView,
     Platform,
 } from "react-native";
+import TeamPlayerCard from "../components/TeamPlayerCard";
 
 export default function MatchScreen() {
     const [matchId, setMatchId] = useState(null);
-    const [isValid, setIsValid] = useState(false);
+    const [isValid, setIsValid] = useState(true);
     const [matchData, setMatchData] = useState({});
 
     const fetchMatchData = async () => {
@@ -37,6 +38,7 @@ export default function MatchScreen() {
                     value={matchId}
                     placeholder="Match ID"
                     keyboardType="numeric"
+                    placeholderTextColor="#7d7d7d"
                 />
                 <Pressable
                     style={styles.searchButton}
@@ -48,9 +50,35 @@ export default function MatchScreen() {
                 </Pressable>
             </View>
             {isValid ? (
-                <Text style={{ textAlign: "center" }}>
-                    {JSON.stringify(matchData)}
-                </Text>
+                <>
+                    <View style={styles.baseMatchDetailsView}>
+                        <Text style={styles.victoryText}>
+                            {"Radiant"} Victory
+                        </Text>
+                        <Text style={styles.killsText}>
+                            {15}-{15}
+                        </Text>
+                        <Text style={styles.timerText}>{"00:00"}</Text>
+                    </View>
+
+                    <View style={styles.teamView}>
+                        <Text style={[styles.teamText, { color: "#22b88b" }]}>
+                            Radiant
+                        </Text>
+                    </View>
+                    <TeamPlayerCard
+                        heroImg={"https://picsum.photos/200"}
+                        heroName={"HeroName"}
+                        kills={10}
+                        deaths={10}
+                        assists={10}
+                    />
+                    <View style={styles.teamView}>
+                        <Text style={[styles.teamText, { color: "#d23201" }]}>
+                            Dire
+                        </Text>
+                    </View>
+                </>
             ) : (
                 <Text style={styles.noMatchIdText}>Enter Match ID</Text>
             )}
@@ -60,13 +88,15 @@ export default function MatchScreen() {
 
 const styles = StyleSheet.create({
     mainContainer: {
-        height: "100%",
-        marginTop: Platform.OS !== "ios" ? 30 : 0,
+        flex: 1,
+        backgroundColor: "#121212",
+        paddingTop: Platform.OS !== "ios" ? 40 : 0,
     },
     searchView: {
-        marginTop: 5,
         flexDirection: "row",
         justifyContent: "space-between",
+        padding: 10,
+        alignItems: "center",
     },
     idInput: {
         height: 40,
@@ -99,6 +129,38 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "600",
         color: "#7d7d7d",
+    },
+    baseMatchDetailsView: {
+        alignItems: "center",
+        paddingTop: "3%",
+        marginBottom: 20,
+    },
+    victoryText: {
+        fontSize: 33,
+        fontWeight: "600",
+        color: "#e0e0e0",
+        padding: 10,
+    },
+    killsText: {
+        fontSize: 25,
+        fontWeight: "500",
+        color: "#e0e0e0",
+    },
+    timerText: {
+        fontSize: 20,
+        fontWeight: "400",
+        color: "#e0e0e0",
+        padding: 3,
+    },
+    teamView: {
+        alignItems: "flex-end",
+        marginBottom: 10,
+        marginRight: 20,
+    },
+    teamText: {
+        fontSize: 25,
+        padding: 5,
+        color: "#e0e0e0",
     },
 });
 

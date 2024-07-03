@@ -68,8 +68,8 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                 <Image source={{ uri: rankImg }} style={styles.rankImg} />
 
                 <View style={styles.wlRatioView}>
-                    <Text style={styles.looseText}>W:{matchesData.win}</Text>
-                    <Text style={styles.winText}> L:{matchesData.lose}</Text>
+                    <Text style={styles.winText}>W:{matchesData.win}</Text>
+                    <Text style={styles.looseText}> L:{matchesData.lose}</Text>
                 </View>
             </View>
 
@@ -167,12 +167,12 @@ const styles = StyleSheet.create({
     winText: {
         fontSize: 20,
         fontWeight: "800",
-        color: "#d23201",
+        color: "#22b88b",
     },
     looseText: {
         fontSize: 20,
         fontWeight: "800",
-        color: "#22b88b",
+        color: "#d23201",
     },
     buttonsView: {
         marginBottom: 30,
