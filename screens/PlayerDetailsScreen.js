@@ -14,7 +14,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
         : null;
 
     const [matchesData, setMatchesData] = useState({});
- 
+
     useLayoutEffect(() => {
         try {
             const fetchLastMatches = async () => {
@@ -100,7 +100,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                         navigation.navigate("Peers", { playerId: playerId })
                     }
                 >
-                    <Text style={styles.buttonText}>W-L With Friends</Text>
+                    <Text style={styles.buttonText}>With Friends</Text>
                 </Pressable>
                 <Pressable
                     style={[styles.button, { backgroundColor: "#22b88b" }]}
@@ -111,7 +111,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                             savedPlayerAvar: playerAvatar,
                         };
                         appendToList(newPlayer);
-                        navigation.navigate("Home")
+                        navigation.navigate("Home");
                     }}
                 >
                     <Text style={[styles.buttonText, { color: "white" }]}>

@@ -19,7 +19,9 @@ export default function HomeScreen({ navigation }) {
             try {
                 // Retrieve the existing list from AsyncStorage
                 const jsonValue = await AsyncStorage.getItem("@savedPlayers");
-                setPlayerList(jsonValue != null ? JSON.parse(jsonValue) : []);
+                setPlayerList(
+                    (jsonValue != null ? JSON.parse(jsonValue) : []).reverse()
+                );
             } catch (error) {
                 console.error("Error loading saved players : ", error);
             }
@@ -78,34 +80,28 @@ export default function HomeScreen({ navigation }) {
                     <Text style={styles.searchButtonText}>Search</Text>
                 </Pressable>
             </View>
-            <View>
-                <View style={styles.savedPlayersHeader}>
-                    <Text style={styles.savedPlayerTitle}>
-                        - Saved Players -
-                    </Text>
-                    <Pressable
-                        style={styles.clearSavedPlayers}
-                        onPress={() => {
-                            clearSavedPlayers();
-                        }}
-                    >
-                        <Text style={styles.clearButtonText}>clear</Text>
-                    </Pressable>
-                </View>
-                <FlatList
-                    data={playerList}
-                    renderItem={({ item }) => (
-                        <SavedPlayerCard
-                            playerAvatar={item.savedPlayerAvar}
-                            playerName={item.savedPlayerName}
-                            playerId={item.savedPlayerId}
-                            clearFunction={clearSavedPlayers}
-                        />
-                    )}
-                    ListFooterComponent={() => <View></View>}
-                    ListFooterComponentStyle={{ margin: 20 }}
-                />
+            <View style={styles.savedPlayersHeader}>
+                <Text style={styles.savedPlayerTitle}>- Saved Players -</Text>
+                <Pressable
+                    style={styles.clearSavedPlayers}
+                    onPress={() => {
+                        clearSavedPlayers();
+                    }}
+                >
+                    <Text style={styles.clearButtonText}>clear</Text>
+                </Pressable>
             </View>
+            <FlatList
+                data={playerList} //reverse to show the latest saves on the top
+                renderItem={({ item }) => (
+                    <SavedPlayerCard
+                        playerAvatar={item.savedPlayerAvar}
+                        playerName={item.savedPlayerName}
+                        playerId={item.savedPlayerId}
+                        clearFunction={clearSavedPlayers}
+                    />
+                )}
+            />
         </View>
     );
 }
@@ -115,7 +111,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     searchView: {
-        marginTop: 15,
+        marginTop: 5,
         flexDirection: "row",
         justifyContent: "space-between",
     },
@@ -148,7 +144,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 20,
+        marginTop: 5,
     },
     savedPlayerTitle: {
         margin: 5,
@@ -170,14 +166,3 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-NEXT STEPS
-
-add a button to clear each card independetly. (fetch, parse, delete(filter !, repost item))
-if the pressable is pressed navigate with playedId , if clear button is pressed (clear savedPlayerCard)
-add restriction for cant add existing saved player (show error instead, else navigate to home)
-
--FIANALLY-
-Start Creating search section and play returned layout for match search
-
-*/

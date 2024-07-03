@@ -1,6 +1,13 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useLayoutEffect, useState } from "react";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Pressable,
+    Image,
+    ScrollView,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { rankTiers } from "../assets/Ranks";
 
 export default function PersonalProfile({ playerId, clearAll }) {
@@ -58,25 +65,25 @@ export default function PersonalProfile({ playerId, clearAll }) {
     return (
         <View style={styles.container}>
             {isValidId ? (
-                <>
+                <ScrollView>
                     <View style={styles.infoView}>
                         <Text style={styles.playerName}>
                             {profileData.profile.personaname}
                         </Text>
                         <Image
                             source={{ uri: profileData.profile.avatarfull }}
-                            style={styles.avatar}
+                            style={styles.playerAvatar}
                         />
                         <Image
                             source={{ uri: rankImg }}
                             style={styles.rankImg}
                         />
-                        <View style={{ flexDirection: "row" }}>
+                        <View style={styles.wlRatioView}>
                             <Text style={styles.wRatio}>
-                                W: {matchesData.win}{" "}
+                                W: {matchesData.win}
                             </Text>
                             <Text style={styles.lRatio}>
-                                L : {matchesData.lose}
+                                L: {matchesData.lose}
                             </Text>
                         </View>
                     </View>
@@ -110,7 +117,7 @@ export default function PersonalProfile({ playerId, clearAll }) {
                             }
                         >
                             <Text style={styles.buttonText}>
-                                W-L With Friends
+                                With Friends
                             </Text>
                         </Pressable>
                         <Pressable
@@ -127,7 +134,7 @@ export default function PersonalProfile({ playerId, clearAll }) {
                             </Text>
                         </Pressable>
                     </View>
-                </>
+                </ScrollView>
             ) : (
                 <View style={styles.invalidIdContainer}>
                     <Text style={styles.loadingText}>Searching...</Text>
@@ -162,7 +169,7 @@ const styles = StyleSheet.create({
         padding: 10,
         color: "#e0e0e0",
     },
-    avatar: {
+    playerAvatar: {
         height: 200,
         width: 200,
         borderRadius: 100,
@@ -174,6 +181,11 @@ const styles = StyleSheet.create({
         width: 75,
         height: 75,
         marginBottom: 20,
+    },
+    wlRatioView: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        padding: 10,
     },
     wRatio: {
         fontSize: 20,
@@ -189,7 +201,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         padding: 5,
     },
-
     buttonsView: {
         marginBottom: 10,
         marginTop: 60,
@@ -205,7 +216,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#1f1f1f",
         elevation: 5,
         paddingHorizontal: "25%",
-        paddingVertical: 10,
     },
     buttonText: {
         fontSize: 16,
@@ -221,5 +231,3 @@ const styles = StyleSheet.create({
         margin: 20,
     },
 });
-
-
