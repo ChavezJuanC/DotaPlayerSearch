@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     clearSavedPlayers: {
-        backgroundColor: "#cf9c8c",
+        backgroundColor: "#f5f5f5",
         width: 50,
         height: 20,
         borderRadius: 30,
@@ -165,4 +165,3 @@ const styles = StyleSheet.create({
         fontWeight: "400",
     },
 });
-

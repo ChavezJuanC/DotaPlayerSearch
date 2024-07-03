@@ -7,12 +7,16 @@ import {
     StyleSheet,
     SafeAreaView,
     Platform,
+    FlatList,
 } from "react-native";
 import TeamPlayerCard from "../components/TeamPlayerCard";
+import heroInfo from "../assets/heroInfo";
 
 export default function MatchScreen() {
     const [matchId, setMatchId] = useState(null);
-    const [isValid, setIsValid] = useState(true);
+    const [isValid, setIsValid] = useState(false);
+    const [direData, setDireData] = useState([]);
+    const [radiantData, setRadiantData] = useState([]);
     const [matchData, setMatchData] = useState({});
 
     const fetchMatchData = async () => {
@@ -24,9 +28,21 @@ export default function MatchScreen() {
             console.error("Invalid Match Id");
         } else {
             setIsValid(true);
+            setDireData(data.players.filter((item) => item.player_slot < 128));
+            setRadiantData(
+                data.players.filter((item) => item.player_slot >= 128)
+            );
             setMatchData(data);
-            console.log(data);
         }
+    };
+
+    const setTimeFormat = (rawTime) => {
+        const minutes = Math.floor(rawTime / 60)
+            .toString()
+            .padStart(2, "0");
+        const seconds = (rawTime % 60).toString().padStart(2, "0");
+
+        return `${minutes}:${seconds}`;
     };
 
     return (
@@ -50,35 +66,98 @@ export default function MatchScreen() {
                 </Pressable>
             </View>
             {isValid ? (
-                <>
-                    <View style={styles.baseMatchDetailsView}>
-                        <Text style={styles.victoryText}>
-                            {"Radiant"} Victory
-                        </Text>
-                        <Text style={styles.killsText}>
-                            {15}-{15}
-                        </Text>
-                        <Text style={styles.timerText}>{"00:00"}</Text>
-                    </View>
+                <FlatList
+                    data={radiantData}
+                    ListHeaderComponent={
+                        <>
+                            <View style={styles.baseMatchDetailsView}>
+                                <Text
+                                    style={[
+                                        styles.victoryText,
+                                        {
+                                            color: matchData.radiant_win
+                                                ? "#22b88b"
+                                                : "#d23201",
+                                        },
+                                    ]}
+                                >
+                                    {matchData.radiant_win ? "Radiant" : "Dire"}
+                                    Victory
+                                </Text>
+                                <Text style={styles.killsText}>
+                                    <Text style={{ color: "#d23201" }}>
+                                        {matchData.radiant_score}
+                                    </Text>
+                                    -
+                                    <Text style={{ color: "#22b88b" }}>
+                                        {" "}
+                                        {matchData.dire_score}
+                                    </Text>
+                                </Text>
+                                <Text style={styles.timerText}>
+                                    {setTimeFormat(matchData.duration)}
+                                </Text>
+                            </View>
+                            <View style={styles.teamView}>
+                                <Text
+                                    style={[
+                                        styles.teamText,
+                                        { color: "#22b88b" },
+                                    ]}
+                                >
+                                    Radiant
+                                </Text>
+                            </View>
+                        </>
+                    }
+                    renderItem={({ item }) => {
+                        const heroData = heroInfo.find(
+                            (element) => element.heroId === item.hero_id
+                        );
 
-                    <View style={styles.teamView}>
-                        <Text style={[styles.teamText, { color: "#22b88b" }]}>
-                            Radiant
-                        </Text>
-                    </View>
-                    <TeamPlayerCard
-                        heroImg={"https://picsum.photos/200"}
-                        heroName={"HeroName"}
-                        kills={10}
-                        deaths={10}
-                        assists={10}
-                    />
-                    <View style={styles.teamView}>
-                        <Text style={[styles.teamText, { color: "#d23201" }]}>
-                            Dire
-                        </Text>
-                    </View>
-                </>
+                        return (
+                            <TeamPlayerCard
+                                heroImg={heroData.heroImg}
+                                heroName={item.personaname}
+                                kills={item.kills}
+                                deaths={item.deaths}
+                                assists={item.assists}
+                            />
+                        );
+                    }}
+                    ListFooterComponent={
+                        <>
+                            <View style={styles.teamView}>
+                                <Text
+                                    style={[
+                                        styles.teamText,
+                                        { color: "#d23201" },
+                                    ]}
+                                >
+                                    Dire
+                                </Text>
+                            </View>
+                            <FlatList
+                                data={direData}
+                                renderItem={({ item }) => {
+                                    const heroData = heroInfo.find(
+                                        (element) =>
+                                            element.heroId === item.hero_id
+                                    );
+                                    return (
+                                        <TeamPlayerCard
+                                            heroImg={heroData.heroImg}
+                                            heroName={item.personaname}
+                                            kills={item.kills}
+                                            deaths={item.deaths}
+                                            assists={item.assists}
+                                        />
+                                    );
+                                }}
+                            />
+                        </>
+                    }
+                />
             ) : (
                 <Text style={styles.noMatchIdText}>Enter Match ID</Text>
             )}
@@ -147,10 +226,10 @@ const styles = StyleSheet.create({
         color: "#e0e0e0",
     },
     timerText: {
-        fontSize: 20,
+        fontSize: 15,
         fontWeight: "400",
         color: "#e0e0e0",
-        padding: 3,
+        padding: 5,
     },
     teamView: {
         alignItems: "flex-end",
@@ -161,16 +240,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         padding: 5,
         color: "#e0e0e0",
+        fontWeight: "500",
     },
 });
 
-/*
-NEXT STEPS
-
--FIANALLY-
- 
-create design for match details(based on test fetch)
-
-start with designing top portion with placeholder data
- 
-*/
