@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, Pressable } from "react-native";
+import { View, Text, Image, StyleSheet, Pressable, Alert } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -25,6 +25,21 @@ export default function SavedPlayerCard({
         }
     };
 
+    const confirmSavedPlayerDelete = () =>
+        Alert.alert("Warning", "Are you sure you want to delete this player?", [
+            {
+                text: "Cancel",
+                onPress: () => null,
+                style: "cancel",
+            },
+            {
+                text: "OK",
+                onPress: () => {
+                    deleteSavedPlayer();
+                },
+            },
+        ]);
+
     return (
         <Pressable
             onPress={() => {
@@ -42,12 +57,7 @@ export default function SavedPlayerCard({
                 <View style={styles.textContainer}>
                     <Text style={styles.playerName}>{playerName}</Text>
                 </View>
-                <Pressable
-                    onPress={() => {
-                        console.log("Clicked Trash");
-                        deleteSavedPlayer();
-                    }}
-                >
+                <Pressable onPress={confirmSavedPlayerDelete}>
                     <Icon name="trash" size={25} color="#363836" />
                 </Pressable>
             </View>
@@ -85,16 +95,4 @@ const styles = StyleSheet.create({
     },
 });
 
-/*
-NEXT STEPS
 
--on clear and on clear each card propmt some kind of confirmation for deleting-
-swith current onpress to trigger alert and use current onpress for alert confirmation function
-https://reactnative.dev/docs/alert
-
--FIANALLY-
-Start Creating search section and play returned layout for match search(fetch list and filter if found error,
- else save and navigate)
-
-
-*/
