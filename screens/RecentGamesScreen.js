@@ -1,6 +1,15 @@
-import { View, Text, FlatList, Image, StyleSheet } from "react-native";
+import {
+    View,
+    Text,
+    FlatList,
+    Image,
+    StyleSheet,
+    Pressable,
+} from "react-native";
 import { useLayoutEffect, useState } from "react";
 import heroInfo from "../assets/heroInfo";
+import * as Clipboard from "expo-clipboard";
+import Toast from "react-native-toast-message";
 
 const RecentGameCard = ({
     heroImg,
@@ -9,9 +18,33 @@ const RecentGameCard = ({
     deaths,
     assists,
     result,
+    matchId,
 }) => {
+    const showToast = () => {
+        Toast.show({
+            type: "success",
+            text1: "Match Id Copied",
+            position: "bottom",
+            visibilityTime: 1300,
+        });
+    };
+
+    const copyIdToClip = async () => {
+        try {
+            await Clipboard.setStringAsync(matchId.toString());
+            showToast();
+        } catch (error) {
+            console.error("Error copying id : ", error);
+        }
+    };
+
     return (
-        <View style={styles.cardContainer}>
+        <Pressable
+            style={styles.cardContainer}
+            onLongPress={() => {
+                copyIdToClip();
+            }}
+        >
             <Image
                 source={{ uri: heroImg }}
                 style={[
@@ -38,7 +71,7 @@ const RecentGameCard = ({
                     A: {assists}
                 </Text>
             </View>
-        </View>
+        </Pressable>
     );
 };
 
@@ -88,10 +121,12 @@ export default function RecentGamesScreen({ route }) {
                             kills={item.kills}
                             deaths={item.deaths}
                             assists={item.assists}
+                            matchId={item.match_id}
                         />
                     );
                 }}
             />
+            <Toast />
         </View>
     );
 }
@@ -163,7 +198,6 @@ const styles = StyleSheet.create({
 });
 
 /* 
-Add error handling to the fetching.. check all other fetches for error handling as well.
-add win or l and display by borderIndicator
-
+Turn recent game card with a pressable that navigates to match search with preset matchId
+orrr hold to copy
 */

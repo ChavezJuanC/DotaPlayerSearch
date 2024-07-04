@@ -10,6 +10,7 @@ import { useLayoutEffect, useState } from "react";
 import SavedPlayerCard from "../components/SavedPlayerCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 export default function HomeScreen({ navigation }) {
     const [steamId, setSteamId] = useState("");
     const [playerList, setPlayerList] = useState([]);
@@ -38,7 +39,7 @@ export default function HomeScreen({ navigation }) {
 
             if (data.error) {
                 console.error("Error: Please verify player ID");
-                //navigation is handled here so that the navigation params object is only define after fetch.
+                //navigation is handled here so that the navigation params object is only defined after fetch.
             } else {
                 navigation.navigate("Player", {
                     playerId: data.profile.account_id,
@@ -53,13 +54,6 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
-    const clearSavedPlayers = async () => {
-        try {
-            await AsyncStorage.removeItem("@savedPlayers");
-        } catch (error) {
-            console.error("Error Clearing Async storage : ", error);
-        }
-    };
 
     return (
         <View style={styles.mainContainer}>
@@ -80,17 +74,6 @@ export default function HomeScreen({ navigation }) {
                     <Text style={styles.searchButtonText}>Search</Text>
                 </Pressable>
             </View>
-            <View style={styles.savedPlayersHeader}>
-                <Text style={styles.savedPlayerTitle}>- Saved Players -</Text>
-                <Pressable
-                    style={styles.clearSavedPlayers}
-                    onPress={() => {
-                        clearSavedPlayers();
-                    }}
-                >
-                    <Text style={styles.clearButtonText}>clear</Text>
-                </Pressable>
-            </View>
             <FlatList
                 data={playerList} //reverse to show the latest saves on the top
                 renderItem={({ item }) => (
@@ -98,7 +81,6 @@ export default function HomeScreen({ navigation }) {
                         playerAvatar={item.savedPlayerAvar}
                         playerName={item.savedPlayerName}
                         playerId={item.savedPlayerId}
-                        clearFunction={clearSavedPlayers}
                     />
                 )}
             />
@@ -139,12 +121,6 @@ const styles = StyleSheet.create({
     },
     searchButtonText: {
         fontWeight: "600",
-    },
-    savedPlayersHeader: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 5,
     },
     savedPlayerTitle: {
         margin: 5,

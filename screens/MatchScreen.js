@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 import {
     View,
     Text,
@@ -28,10 +28,10 @@ export default function MatchScreen() {
             console.error("Invalid Match Id");
         } else {
             setIsValid(true);
-            setDireData(data.players.filter((item) => item.player_slot < 128));
             setRadiantData(
-                data.players.filter((item) => item.player_slot >= 128)
+                data.players.filter((item) => item.player_slot < 128)
             );
+            setDireData(data.players.filter((item) => item.player_slot >= 128));
             setMatchData(data);
         }
     };
@@ -81,12 +81,12 @@ export default function MatchScreen() {
                                         },
                                     ]}
                                 >
-                                    {matchData.radiant_win ? "Radiant" : "Dire"}
+                                    {matchData.radiant_win ? "Radiant" : "Dire"}{" "}
                                     Victory
                                 </Text>
                                 <Text style={styles.killsText}>
                                     <Text style={{ color: "#d23201" }}>
-                                        {matchData.radiant_score}
+                                        {matchData.radiant_score}{" "}
                                     </Text>
                                     -
                                     <Text style={{ color: "#22b88b" }}>
@@ -243,4 +243,3 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
 });
-
