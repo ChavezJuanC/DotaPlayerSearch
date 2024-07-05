@@ -10,6 +10,7 @@ import { useLayoutEffect, useState } from "react";
 import heroInfo from "../assets/heroInfo";
 import * as Clipboard from "expo-clipboard";
 import Toast from "react-native-toast-message";
+import { useNavigation } from "@react-navigation/native";
 
 const RecentGameCard = ({
     heroImg,
@@ -20,6 +21,7 @@ const RecentGameCard = ({
     result,
     matchId,
 }) => {
+    const navigation = useNavigation();
     const showToast = () => {
         Toast.show({
             type: "success",
@@ -43,6 +45,9 @@ const RecentGameCard = ({
             style={styles.cardContainer}
             onLongPress={() => {
                 copyIdToClip();
+            }}
+            onPress={() => {
+                navigation.navigate("Find Match", { matchNavId: matchId });
             }}
         >
             <Image
@@ -196,8 +201,3 @@ const styles = StyleSheet.create({
         //color: "#2176FF",
     },
 });
-
-/* 
-Turn recent game card with a pressable that navigates to match search with preset matchId
-orrr hold to copy
-*/

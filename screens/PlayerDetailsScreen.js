@@ -5,9 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PlayerDetailsScreen({ route, navigation }) {
     const { playerName, playerAvatar, playerRank, playerId } = route.params;
-    const [rankImg, setRankImage] = useState(
-        "https://www.opendota.com/assets/images/dota2/rank_icons/rank_icon_0.png"
-    );
+    const [rankImg, setRankImage] = useState(null);
 
     const playerRankTier = playerRank
         ? rankTiers.find((element) => element.rankTier === playerRank).rankName
@@ -30,13 +28,14 @@ export default function PlayerDetailsScreen({ route, navigation }) {
             console.error("Error fetching win/loss ratio : ", error);
         }
 
-        if (playerRankTier !== null) {
-            setRankImage(
-                rankTiers.find((element) => element.rankName === playerRankTier)
-                    .image
-            );
-        }
-    }, []);
+        setRankImage(
+            playerRankTier
+                ? rankTiers.find(
+                      (element) => element.rankName == playerRankTier
+                  ).image
+                : "https://www.opendota.com/assets/images/dota2/rank_icons/rank_icon_0.png"
+        );
+    }, [playerRank]);
 
     const appendToList = async (newPlayer) => {
         try {
@@ -196,13 +195,3 @@ const styles = StyleSheet.create({
     },
 });
 
-//1029733554
-//106210714
-//73149933
-//168199092
-//119220558
-//152428288
-
-//232061338
-//106108405
-//86331243

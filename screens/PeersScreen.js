@@ -1,9 +1,40 @@
-import { View, Text, Image, StyleSheet, FlatList } from "react-native";
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    FlatList,
+    Pressable,
+} from "react-native";
 import { useLayoutEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
-const PeerCard = ({ peerAvatar, peerName, wins, losses }) => {
+const PeerCard = ({ peerAvatar, peerName, wins, losses, peerId }) => {
+    const navigation = useNavigation();
     return (
-        <View style={styles.cardContainer}>
+        <Pressable
+            style={styles.cardContainer}
+            onPress={() => {
+                const fetchPlayerRank = async () => {
+                    try {
+                        const res = await fetch(
+                            `https://api.opendota.com/api/players/${peerId}`
+                        );
+                        const data = await res.json();
+                        console.log(data);
+                        navigation.navigate("Player", {
+                            playerId: peerId,
+                            playerAvatar: peerAvatar,
+                            playerName: peerName,
+                            playerRank: data.rank_tier,
+                        });
+                    } catch (error) {
+                        console.error("Error fetching rank for peer : ", error);
+                    }
+                };
+                fetchPlayerRank();
+            }}
+        >
             <Image source={{ uri: peerAvatar }} style={styles.peerAvatar} />
             <View style={styles.textContainer}>
                 <Text style={styles.peerName}>{peerName}</Text>
@@ -17,7 +48,7 @@ const PeerCard = ({ peerAvatar, peerName, wins, losses }) => {
                     </Text>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 };
 
@@ -46,14 +77,17 @@ export default function PeersScreen({ route }) {
             <FlatList
                 data={peersData}
                 keyExtractor={(item) => item.account_id.toString()}
-                renderItem={({ item }) => (
-                    <PeerCard
-                        peerAvatar={item.avatarfull}
-                        peerName={item.personaname}
-                        wins={item.win}
-                        losses={item.games - item.win}
-                    />
-                )}
+                renderItem={({ item }) => {
+                    return (
+                        <PeerCard
+                            peerAvatar={item.avatarfull}
+                            peerName={item.personaname}
+                            wins={item.win}
+                            losses={item.games - item.win}
+                            peerId={item.account_id}
+                        />
+                    );
+                }}
             />
         </View>
     );

@@ -43,10 +43,24 @@ export default function SavedPlayerCard({
     return (
         <Pressable
             onPress={() => {
-                navigation.navigate("Player", {
-                    playerId: playerId,
-                    playerAvatar: playerAvatar,
-                });
+                const fetchPlayerRank = async () => {
+                    try {
+                        const res = await fetch(
+                            `https://api.opendota.com/api/players/${playerId}`
+                        );
+                        const data = await res.json();
+
+                        navigation.navigate("Player", {
+                            playerId: playerId,
+                            playerAvatar: playerAvatar,
+                            playerName: playerName,
+                            playerRank: data.rank_tier,
+                        });
+                    } catch (error) {
+                        console.error("Error fetching player rank : ", error);
+                    }
+                };
+                fetchPlayerRank();
             }}
         >
             <View style={styles.cardView}>
@@ -94,5 +108,3 @@ const styles = StyleSheet.create({
         color: "#e0e0e0",
     },
 });
-
-

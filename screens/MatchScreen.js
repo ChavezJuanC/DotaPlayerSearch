@@ -11,21 +11,31 @@ import {
 } from "react-native";
 import TeamPlayerCard from "../components/TeamPlayerCard";
 import heroInfo from "../assets/heroInfo";
+import Toast from "react-native-toast-message";
 
-export default function MatchScreen() {
+export default function MatchScreen({ route }) {
     const [matchId, setMatchId] = useState(null);
     const [isValid, setIsValid] = useState(false);
     const [direData, setDireData] = useState([]);
     const [radiantData, setRadiantData] = useState([]);
     const [matchData, setMatchData] = useState({});
+    const matchNavId = route.params?.matchNavId;
 
-    const fetchMatchData = async () => {
+    // if navigated to fetchMatchData and display.
+    useLayoutEffect(() => {
+        if (matchNavId) {
+            setMatchId(matchNavId);
+            fetchMatchData(matchNavId);
+        }
+    }, [matchNavId]);
+
+    const fetchMatchData = async (matchId) => {
         const res = await fetch(
             `https://api.opendota.com/api/matches/${matchId}`
         );
         const data = await res.json();
         if (data.error) {
-            console.error("Invalid Match Id");
+            console.error("Invalid Match Id : ", matchId);
         } else {
             setIsValid(true);
             setRadiantData(
@@ -59,7 +69,7 @@ export default function MatchScreen() {
                 <Pressable
                     style={styles.searchButton}
                     onPress={() => {
-                        fetchMatchData();
+                        fetchMatchData(matchId);
                     }}
                 >
                     <Text style={styles.searchButtonText}>Find</Text>
@@ -118,10 +128,11 @@ export default function MatchScreen() {
                         return (
                             <TeamPlayerCard
                                 heroImg={heroData.heroImg}
-                                heroName={item.personaname}
+                                playerName={item.personaname || "Anonymous"}
                                 kills={item.kills}
                                 deaths={item.deaths}
                                 assists={item.assists}
+                                playerId={item.account_id}
                             />
                         );
                     }}
@@ -147,10 +158,13 @@ export default function MatchScreen() {
                                     return (
                                         <TeamPlayerCard
                                             heroImg={heroData.heroImg}
-                                            heroName={item.personaname}
+                                            playerName={
+                                                item.personaname || "Anonymous"
+                                            }
                                             kills={item.kills}
                                             deaths={item.deaths}
                                             assists={item.assists}
+                                            playerId={item.account_id || null}
                                         />
                                     );
                                 }}
@@ -161,6 +175,7 @@ export default function MatchScreen() {
             ) : (
                 <Text style={styles.noMatchIdText}>Enter Match ID</Text>
             )}
+            <Toast />
         </SafeAreaView>
     );
 }

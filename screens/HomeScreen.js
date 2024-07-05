@@ -10,9 +10,8 @@ import { useLayoutEffect, useState } from "react";
 import SavedPlayerCard from "../components/SavedPlayerCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 export default function HomeScreen({ navigation }) {
-    const [steamId, setSteamId] = useState("");
+    const [openDotaId, setopenDotaId] = useState("");
     const [playerList, setPlayerList] = useState([]);
 
     useLayoutEffect(() => {
@@ -33,7 +32,7 @@ export default function HomeScreen({ navigation }) {
     const fetch_player_data = async () => {
         try {
             const res = await fetch(
-                `https://api.opendota.com/api/players/${steamId}`
+                `https://api.opendota.com/api/players/${openDotaId}`
             );
             const data = await res.json();
 
@@ -46,7 +45,7 @@ export default function HomeScreen({ navigation }) {
                     playerName: data.profile.personaname,
                     playerAvatar: data.profile.avatarfull,
                     playerRank: data.rank_tier,
-                    playerId: steamId,
+                    playerId: openDotaId,
                 });
             }
         } catch (error) {
@@ -54,14 +53,13 @@ export default function HomeScreen({ navigation }) {
         }
     };
 
-
     return (
         <View style={styles.mainContainer}>
             <View style={styles.searchView}>
                 <TextInput
                     style={styles.idInput}
-                    onChangeText={setSteamId}
-                    value={steamId}
+                    onChangeText={setopenDotaId}
+                    value={openDotaId}
                     placeholder="Open Dota ID"
                     keyboardType="numeric"
                 />

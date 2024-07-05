@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet } from "react-native";
 import PersonalProfile from "../components/PersonalProfile";
 import IdResgistration from "../components/IdResgistration";
 import AsyncStorage from "@react-native-async-storage/async-storage";
