@@ -124,8 +124,8 @@ export default function MatchScreen({ route }) {
                         const heroData = heroInfo.find(
                             (element) => element.heroId === item.hero_id
                         );
-
                         return (
+                            ////IF PLAYER DAMAGE IS AVAIL CALC AND DISPLAY???
                             <TeamPlayerCard
                                 heroImg={heroData.heroImg}
                                 playerName={item.personaname || "Anonymous"}
@@ -133,6 +133,12 @@ export default function MatchScreen({ route }) {
                                 deaths={item.deaths}
                                 assists={item.assists}
                                 playerId={item.account_id}
+                                playerGold={item.net_worth}
+                                playerLevel={item.level}
+                                lastHits={item.last_hits}
+                                playerDenies={item.denies}
+                                dealtDamage={item.hero_damage}
+                                towerDamage={item.tower_damage}
                             />
                         );
                     }}
@@ -155,6 +161,7 @@ export default function MatchScreen({ route }) {
                                         (element) =>
                                             element.heroId === item.hero_id
                                     );
+                                    ////IF PLAYER DAMAGE IS AVAIL CALC AND DISPLAY???
                                     return (
                                         <TeamPlayerCard
                                             heroImg={heroData.heroImg}
@@ -165,6 +172,12 @@ export default function MatchScreen({ route }) {
                                             deaths={item.deaths}
                                             assists={item.assists}
                                             playerId={item.account_id || null}
+                                            playerGold={item.net_worth}
+                                            playerLevel={item.level}
+                                            lastHits={item.last_hits}
+                                            playerDenies={item.denies}
+                                            dealtDamage={item.hero_damage}
+                                            towerDamage={item.tower_damage}
                                         />
                                     );
                                 }}

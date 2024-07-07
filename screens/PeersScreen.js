@@ -21,7 +21,6 @@ const PeerCard = ({ peerAvatar, peerName, wins, losses, peerId }) => {
                             `https://api.opendota.com/api/players/${peerId}`
                         );
                         const data = await res.json();
-                        console.log(data);
                         navigation.navigate("Player", {
                             playerId: peerId,
                             playerAvatar: peerAvatar,

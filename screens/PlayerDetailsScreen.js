@@ -35,7 +35,7 @@ export default function PlayerDetailsScreen({ route, navigation }) {
                   ).image
                 : "https://www.opendota.com/assets/images/dota2/rank_icons/rank_icon_0.png"
         );
-    }, [playerRank]);
+    }, [playerName]);
 
     const appendToList = async (newPlayer) => {
         try {
@@ -194,4 +194,8 @@ const styles = StyleSheet.create({
         color: "#e0e0e0",
     },
 });
+
+
+//after this toast on player save?
+// or error if player exists on async memory
 
